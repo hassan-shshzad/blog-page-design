@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Responsive Blog Homepage</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#4fb0ff; --text:#e6eef8; --glass:rgba(255,255,255,0.04);
+    }
+    [data-theme="light"]{ --bg:#f6f8fb; --card:#ffffff; --muted:#596066; --accent:#0b76ff; --text:#0b1220; --glass:rgba(0,0,0,0.04); }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;color:var(--text);background:linear-gradient(180deg,var(--bg),#071028);-webkit-font-smoothing:antialiased}
+
+    /* Header */
+    .container{max-width:1180px;margin:0 auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#6ef) ;display:flex;align-items:center;justify-content:center;color:var(--card);font-weight:700}
+    nav{display:flex;gap:14px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600}
+    .search{display:flex;align-items:center;border-radius:10px;padding:6px 10px;background:var(--glass)}
+    .search input{background:transparent;border:0;outline:0;color:var(--text);width:180px}
+
+    /* Layout */
+    main{display:grid;grid-template-columns:1fr 320px;gap:28px;margin-top:18px}
+    @media(max-width:900px){main{grid-template-columns:1fr} .search input{width:100px}}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start}
+    .featured{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:14px;padding:18px;position:relative;overflow:hidden}
+    .featured img{width:100%;height:260px;object-fit:cover;border-radius:10px}
+    .featured .meta{display:flex;justify-content:space-between;margin-top:12px}
+    .featured h1{margin:10px 0 6px}
+    .btn{display:inline-block;padding:8px 14px;border-radius:9px;background:linear-gradient(90deg,var(--accent),#8bd9ff);color:#052032;text-decoration:none;font-weight:700;transform-style:preserve-3d;transition:transform .18s ease, box-shadow .18s ease}
+    .btn:active{transform:translateZ(-6px)}
+
+    /* Posts grid */
+    .posts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+    @media(max-width:1100px){.posts{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.posts{grid-template-columns:1fr}}
+
+    .card{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);transform:translateZ(0);transition:transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s}
+    .card:hover{transform:translateY(-8px) rotateX(4deg) scale(1.02);box-shadow:0 16px 40px rgba(11,18,30,0.6)}
+    .thumb{height:140px;border-radius:8px;overflow:hidden}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .card h3{margin:10px 0 6px}
+    .meta-line{font-size:13px;color:var(--muted)}
+    .excerpt{color:var(--muted);font-size:14px;margin:8px 0}
+    .card .read{display:inline-block;margin-top:10px;font-weight:700;text-decoration:none;color:var(--accent)}
+
+    /* Sidebar */
+    aside{position:relative}
+    .sticky{position:sticky;top:18px}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:14px;border-radius:12px}
+    .cats li{list-style:none;padding:8px 6px;border-radius:8px;cursor:pointer;margin-bottom:6px}
+    .cats li:hover{background:var(--glass)}
+
+    .recent li{display:flex;gap:8px;align-items:center;padding:8px 6px;border-radius:8px}
+    .recent img{width:48px;height:40px;object-fit:cover;border-radius:6px}
+
+    /* Hover effects */
+.card {
+  background: var(--card);
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+  transform: perspective(800px) translateZ(0);
+  transition: transform .35s cubic-bezier(.25,.8,.25,1), 
+              box-shadow .100s, 
+              filter .35s;
+}
+.card:hover {
+  transform: perspective(800px) rotateX(1.6deg) rotateY(-6deg) scale(1.2);
+  box-shadow: 10px 10px 80px rgb(98, 104, 116);
+  filter: brightness(1.05);
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 9px;
+  background: linear-gradient(90deg,var(--accent),#8bd9ff);
+  color:#052032;
+  text-decoration: none;
+  font-weight: 700;
+  transform-style: preserve-3d;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+}
+.btn:active {
+  transform: translateY(0) scale(.97);
+  box-shadow: 0 4px 10px rgba(0,0,0,.2) inset;
+}
+
+    /* Footer */
+    footer{margin-top:34px;padding:20px 0;color:var(--muted);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    @media(max-width:600px){footer{flex-direction:column;align-items:flex-start}footer div{width:100%}}
+
+    /* Toggle */
+    .toggle{display:inline-flex;align-items:center;background:var(--glass);padding:6px;border-radius:999px;gap:8px}
+    .switch{width:38px;height:22px;background:#0b1220;border-radius:999px;position:relative;cursor:pointer}
+    .knob{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:linear-gradient(180deg,#fff,#eaeaea);transition:left .18s}
+    [data-theme="light"] .knob{left:19px}
+
+    /* small helpers */
+    .flex{display:flex;gap:12px;align-items:center}
+    a.icon{color:var(--muted);text-decoration:none}
+
+    /* scroll animation */
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+  </style>
+</head>
+<body>
+  <div class="container" id="top">
+    <header>
+      <div class="brand">
+        <div class="logo">B</div>
+        <div>
+          <div style="font-weight:800">BlueBlogger</div>
+          <div style="font-size:12px;color:var(--muted)">Stories. Ideas. Code.</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#top">Home</a>
+        <a href="#posts">Posts</a>
+        <a href="#about">About</a>
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="opacity:.8"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <input id="searchInput" placeholder="Search posts" />
+        </div>
+        <div class="toggle" id="themeToggle" title="Toggle dark/light">
+          <div style="font-size:12px;color:var(--muted)">Dark</div>
+          <div class="switch"><div class="knob"></div></div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <div class="hero">
+          <article class="featured panel reveal" id="featured">
+            <img src="https://images.unsplash.com/photo-1506354666786-959d6d497f1a?q=80&w=1400&auto=format&fit=crop" alt="Featured image" />
+            <div class="meta">
+              <div style="font-size:13px;color:var(--muted)">Tech • Aug 27, 2025</div>
+              <div style="font-size:13px;color:var(--muted)">5 min read</div>
+            </div>
+            <h1>How to build faster UI with smarter components</h1>
+            <p class="excerpt">A short practical guide that shows patterns, pitfalls, and the tools you actually need.</p>
+            <a class="btn" href="#posts">Read more</a>
+          </article>
+
+          <aside class="panel reveal sticky" style="height:100%;">
+            <div style="margin-bottom:12px">
+              <input id="sideSearch" placeholder="Search in sidebar" style="width:100%;padding:8px;border-radius:8px;border:0;background:var(--glass);color:var(--text)" />
+            </div>
+            <div style="margin-bottom:12px">
+              <strong>Categories</strong>
+              <ul class="cats" id="cats" style="padding:0;margin:8px 0">
+                <li data-cat="all">All</li>
+                <li data-cat="tech">Tech</li>
+                <li data-cat="travel">Travel</li>
+                <li data-cat="food">Food</li>
+                <li data-cat="life">Life</li>
+              </ul>
+            </div>
+            <div>
+              <strong>Recent posts</strong>
+              <ul class="recent" id="recent" style="padding:0;margin:8px 0">
+                <!-- JS inserts -->
+              </ul>
+            </div>
+          </aside>
+        </div>
+
+        <div id="posts" class="posts" aria-live="polite">
+          <!-- JS will render cards here -->
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div>© <span id="year"></span> BlueBlogger. All rights reserved.</div>
+      <div class="flex">
+        <a class="icon" href="#">Twitter</a>
+        <a class="icon" href="#">Instagram</a>
+        <a class="icon" href="#">GitHub</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Data source (mock)
+    const POSTS = [
+      {id:1,title:'State of Frontend 2025',cat:'tech',excerpt:'What modern frontend teams build and why.',img:'https://i.pinimg.com/1200x/75/6a/a3/756aa3c54d6e62e9ea445745763992b2.jpg',date:'Aug 20, 2025'},
+      {id:2,title:'Minimal travel packing',cat:'travel',excerpt:'Pack less. See more. Practical checklist.',img:'https://i.pinimg.com/736x/9c/15/92/9c15921cf747a8dd6b4ee1faaa5b4fb0.jpg',date:'Jul 12, 2025'},
+      {id:3,title:'Sourdough for beginners',cat:'food',excerpt:'How to start and keep a starter alive.',img:'https://i.pinimg.com/1200x/e2/1c/de/e21cde4e99363a675cd61df8f9b33c14.jpg',date:'Jun 03, 2025'},
+      {id:4,title:'Ship features with confidence',cat:'tech',excerpt:'Release strategies that scale with teams.',img:'https://i.pinimg.com/736x/db/e2/ee/dbe2ee9be1a29a439e5550ceea792fcc.jpg',date:'May 29, 2025'},
+      {id:5,title:'Weekend hikes near cities',cat:'travel',excerpt:'Top short hikes you can do this weekend.',img:'https://i.pinimg.com/1200x/90/e3/61/90e3618f3305ec79d2f874ba3a6a4d3f.jpg',date:'Apr 15, 2025'},
+      {id:6,title:'Mindful work routines',cat:'life',excerpt:'Small rituals that improve focus.',img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop',date:'Mar 08, 2025'},
+      {id:7,title:'CSS 3D tricks',cat:'tech',excerpt:'Micro-interactions using perspective and transform.',img:'https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1200&auto=format&fit=crop',date:'Feb 02, 2025'},
+      {id:8,title:'Street food guide',cat:'food',excerpt:'Best local bites and how to find them.',img:'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop',date:'Jan 15, 2025'},
+      {id:9,title:'Design systems in practice',cat:'tech',excerpt:'How teams keep UI consistent across products.',img:'https://i.pinimg.com/736x/de/6a/de/de6adef3aa1669179d550a3aaf2a5796.jpg',date:'Dec 12, 2024'},
+      {id:10,title:'City cycling routes',cat:'travel',excerpt:'Safe and scenic bike routes in urban areas.',img:'https://images.unsplash.com/photo-1504215680853-026ed2a45def?q=80&w=1200&auto=format&fit=crop',date:'Nov 02, 2024'},
+      {id:11,title:'Easy fermentation at home',cat:'food',excerpt:'Fermented foods to boost flavor and gut health.',img:'https://i.pinimg.com/1200x/77/d9/3b/77d93b0cf569aeff1061a3ad5779a5a0.jpg',date:'Oct 18, 2024'},
+      {id:12,title:'Timeboxing for devs',cat:'life',excerpt:'Use timeboxing to ship features faster.',img:'https://i.pinimg.com/1200x/8a/3a/ca/8a3aca3dface13d3f89071ddf2bff15d.jpg',date:'Sep 09, 2024'}
+    ];
+
+    // Render posts
+    const postsEl = document.getElementById('posts');
+    const recentEl = document.getElementById('recent');
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = new Date().getFullYear();
+
+    function renderCards(filter='all', q=''){
+      postsEl.innerHTML='';
+      const filtered = POSTS.filter(p=> (filter==='all' || p.cat===filter) && (q==='' || (p.title+p.excerpt).toLowerCase().includes(q.toLowerCase())) ).slice(0,12);
+      filtered.forEach(p=>{
+        const card = document.createElement('article');
+        card.className='card reveal';
+        card.innerHTML = `
+          <div class="thumb"><img src="${p.img}" alt="${p.title}"></div>
+          <div style=\"display:flex;justify-content:space-between\"><h3>${p.title}</h3><div class=\"meta-line\">${p.date}</div></div>
+          <p class=\"excerpt\">${p.excerpt}</p>
+          <a class=\"read\" href=\"#\" data-id=\"${p.id}\">Read more →</a>
+        `;
+        postsEl.appendChild(card);
+      });
+      // intersection observer for reveal
+      requestAnimationFrame(attachReveals);
+      // recent posts
+      renderRecent(filtered.slice(0,5));
+    }
+
+    function renderRecent(list){
+      recentEl.innerHTML='';
+      list.forEach(p=>{
+        const li = document.createElement('li');
+        li.innerHTML = `<img src="${p.img}" alt="${p.title}"><div><strong style=\"display:block\">${p.title}</strong><div class=\"meta-line\">${p.date}</div></div>`;
+        recentEl.appendChild(li);
+      });
+    }
+
+    // Category filter
+    document.getElementById('cats').addEventListener('click', e=>{
+      const li = e.target.closest('li'); if(!li) return;
+      const cat = li.dataset.cat || 'all';
+      document.querySelectorAll('#cats li').forEach(x=>x.style.fontWeight='');
+      li.style.fontWeight='800';
+      renderCards(cat, document.getElementById('searchInput').value);
+    });
+
+    // Search simulation
+    document.getElementById('searchInput').addEventListener('input', e=>{
+      renderCards('all', e.target.value);
+    });
+    document.getElementById('sideSearch').addEventListener('input', e=>{
+      renderCards('all', e.target.value);
+    });
+
+    // theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const current = localStorage.getItem('theme') || 'dark';
+    if(current==='light') root.setAttribute('data-theme','light');
+    themeToggle.addEventListener('click',()=>{
+      const now = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      if(now==='light') root.setAttribute('data-theme','light'); else root.removeAttribute('data-theme');
+      localStorage.setItem('theme', now);
+    });
+
+    // smooth scroll for nav links
+    document.querySelectorAll('nav a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});});
+    });
+
+    // reveal on scroll
+    let observer;
+    function attachReveals(){
+      const items = document.querySelectorAll('.reveal');
+      if('IntersectionObserver' in window){
+        observer = observer || new IntersectionObserver((entries)=>{
+          entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('visible'); observer.unobserve(en.target); } });
+        },{threshold:0.12});
+        items.forEach(i=>observer.observe(i));
+      } else {
+        items.forEach(i=>i.classList.add('visible'));
+      }
+    }
+
+    // initial render
+    renderCards();
+
+    // attach Read more interactions (demo)
+    document.body.addEventListener('click', e=>{
+      const a = e.target.closest('a.read'); if(!a) return;
+      e.preventDefault(); const id = a.dataset.id; alert('Open post id: '+id);
+    });
+
+    // keyboard accessibility: quick focus on search with '/'
+    document.addEventListener('keydown', e=>{ if(e.key==='/' && document.activeElement.tagName!=='INPUT'){ e.preventDefault(); document.getElementById('searchInput').focus(); } });
+
+  </script>
+</body>
+</html>
